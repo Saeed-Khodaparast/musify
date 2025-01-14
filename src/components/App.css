@@ -5,7 +5,8 @@
 }
 
 .container {
-  min-height: 100vh;
+  height: 100dvh;
+  min-height: 100dvh;
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: auto 1fr auto;
