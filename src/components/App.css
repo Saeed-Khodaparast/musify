@@ -22,7 +22,7 @@
 .header .menuIcon {
   width: 24px;
   height: 24px;
-  margin-left: 18px;
+  margin-left: 20px;
   padding: 2px;
 }
 
@@ -32,7 +32,7 @@
 }
 
 .content {
-  margin: 0 32px;
+  margin: 0 24px;
   grid-row: 2 / 3;
   display: flex;
   justify-content: center;
