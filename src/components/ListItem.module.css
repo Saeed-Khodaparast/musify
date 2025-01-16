@@ -1,0 +1,43 @@
+.listItem {
+  background-color: white;
+  margin: 12px 4px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  /* Modern subtle shadow */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.05);
+
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  color: #545454;
+}
+
+.image {
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+}
+
+.textContainer {
+  padding: 16px 24px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.name {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  color: #383838;
+}
+
+.genres {
+  padding: 8px 0;
+}
+
+.genre {
+  width: fit-content;
+  border: 1px #eeeeee solid;
+  border-radius: 50px;
+  padding: 4px 12px;
+  margin: 0 4px 2px 0;
+  display: inline-block;
+}

@@ -1,23 +1,24 @@
+import { useState, useEffect } from "react";
 import "./App.css";
-import closeIcon from "../assets/images/ic-close.svg";
-import menuIcon from "../assets/images/ic-menu.svg";
+import DesktopLayout from "./DesktopLayout";
+import MobileLayout from "./MobileLayout";
 
 const App = () => {
-  return (
-    <div className="container">
-      <header className="header">
-        <img className="menuIcon" src={menuIcon} alt="" />
-        <h1 className="logo">Musify</h1>
-      </header>
-      <section className="inputContainer">
-        <input className="input" type="text" placeholder="add artist name" />
-        <img className="endIcon" src={closeIcon} alt="" />
-      </section>
-      <aside></aside>
-      <main className="content">Content</main>
-      <aside></aside>
-    </div>
+  const [isMobile, setIsMobile] = useState(
+    window.matchMedia("(max-width: 768px)").matches
   );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const handler = (e) => {
+      setIsMobile(e.matches);
+    };
+    mediaQuery.addEventListener("change", handler);
+
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
+  return isMobile ? <MobileLayout /> : <DesktopLayout />;
 };
 
 export default App;

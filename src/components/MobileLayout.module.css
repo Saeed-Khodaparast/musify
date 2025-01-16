@@ -1,0 +1,97 @@
+.container {
+  height: 100dvh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: hidden;
+}
+
+.header {
+  padding: 24px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.header .logo {
+  font-size: 22px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.content {
+  flex: 1;
+  margin: 0 16px;
+  overflow-y: auto;
+
+  /* Webkit */
+  &::-webkit-scrollbar {
+    width: 6px;
+    opacity: 0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+  }
+
+  &:hover::-webkit-scrollbar-thumb,
+  &:focus::-webkit-scrollbar-thumb,
+  &:active::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.toolbar {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menuIcon {
+  width: 24px;
+  height: 24px;
+  margin-left: 20px;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.inputContainer {
+  display: none;
+  margin: 0 24px;
+  position: relative;
+}
+.inputContainer.open {
+  display: block;
+}
+
+.inputContainer .input {
+  width: 100%;
+  margin: 24px 0;
+  padding: 8px 32px 8px 12px;
+  border-radius: 8px;
+  border: 1px #e4e4e4 solid;
+}
+
+.inputContainer .endIcon {
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.searchIcon {
+  margin-right: 20px;
+  cursor: pointer;
+  display: block;
+}
+.searchIcon.close {
+  display: none;
+}
