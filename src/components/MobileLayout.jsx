@@ -11,7 +11,7 @@ let timeoutId;
 
 // ***
 const CLIENT_ID = "e64aaf2241684dedbf22fcb9cea58518";
-// const REDIRECT_URI = "http://localhost:5173";
+//const REDIRECT_URI = "http://localhost:5173";
 const REDIRECT_URI = "https://saeed-khodaparast.github.io/musify/";
 
 // Generate random string for state
@@ -75,8 +75,12 @@ const MobileLayout = () => {
           const data = await response.json();
           if (data.access_token) {
             localStorage.setItem("spotify_access_token", data.access_token);
+            localStorage.setItem("spotify_refresh_token", data.refresh_token);
+            localStorage.setItem(
+              "token_expiry",
+              Date.now() + data.expires_in * 1000
+            );
             setAccessToken(data.access_token);
-            // Clear the URL parameters
             window.history.replaceState({}, document.title, "/");
           }
         } catch (error) {
@@ -86,9 +90,7 @@ const MobileLayout = () => {
         // Only initialize auth if we don't have a token and aren't handling a redirect
         const verifier = generateRandomString(128);
         const state = generateRandomString(16);
-
         localStorage.setItem("code_verifier", verifier);
-
         const challenge = await generateCodeChallenge(verifier);
         const args = new URLSearchParams({
           response_type: "code",
@@ -106,7 +108,85 @@ const MobileLayout = () => {
     };
 
     handleSpotifyAuth();
-  }, []);
+  }, [accessToken]);
+
+  const refreshAccessToken = async () => {
+    const refreshToken = localStorage.getItem("spotify_refresh_token");
+    if (!refreshToken) return null;
+
+    try {
+      const response = await fetch("https://accounts.spotify.com/api/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          grant_type: "refresh_token",
+          refresh_token: refreshToken,
+          client_id: CLIENT_ID,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.access_token) {
+        localStorage.setItem("spotify_access_token", data.access_token);
+        localStorage.setItem(
+          "token_expiry",
+          Date.now() + data.expires_in * 1000
+        );
+        if (data.refresh_token) {
+          localStorage.setItem("spotify_refresh_token", data.refresh_token);
+        }
+        setAccessToken(data.access_token);
+        return data.access_token;
+      }
+    } catch (error) {
+      console.error("Error refreshing token:", error);
+      return null;
+    }
+  };
+
+  const makeSpotifyRequest = async (url) => {
+    let token = localStorage.getItem("spotify_access_token");
+    const expiry = localStorage.getItem("token_expiry");
+
+    // Check if token is expired
+    if (expiry && Date.now() > parseInt(expiry) - 60000) {
+      token = await refreshAccessToken();
+    }
+
+    if (!token) {
+      // Force re-authentication if we don't have a valid token
+      localStorage.clear();
+      window.location.reload();
+      return;
+    }
+
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 401) {
+      // Token might have just expired, try refreshing once
+      token = await refreshAccessToken();
+      if (token) {
+        // Retry the request with new token
+        return fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } else {
+        // If refresh failed, clear storage and force re-authentication
+        localStorage.clear();
+        window.location.reload();
+      }
+    }
+
+    return response;
+  };
 
   function handleInputChange(e) {
     const query = e.target.value;
