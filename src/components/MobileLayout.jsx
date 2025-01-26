@@ -41,9 +41,8 @@ const MobileLayout = () => {
   const [artists, setArtists] = useState([]);
   const [artist, setArtist] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [accessToken, setAccessToken] = useState(
-    localStorage.getItem("spotify_access_token")
-  );
+  const [accessToken, setAccessToken] = useState();
+  localStorage.getItem("spotify_access_token");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -196,24 +195,23 @@ const MobileLayout = () => {
       clearTimeout(timeoutId);
     }
 
-    timeoutId = setTimeout(() => {
-      fetch(`https://api.spotify.com/v1/search?q=artist:${query}&type=artist`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status}`);
-          }
-          return res.json();
-        })
-        .then((data) => {
-          console.log(data);
-          console.log(data.artists.items);
-          setArtists(data.artists.items);
-        })
-        .catch((error) => console.log(error));
+    timeoutId = setTimeout(async () => {
+      try {
+        const response = await makeSpotifyRequest(
+          `https://api.spotify.com/v1/search?q=artist:${query}&type=artist`
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+        console.log(data.artists.items);
+        setArtists(data.artists.items);
+      } catch (error) {
+        console.log(error);
+      }
     }, 1000);
   }
 
