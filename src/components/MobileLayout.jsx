@@ -10,8 +10,8 @@ let timeoutId;
 
 // ***
 const CLIENT_ID = "e64aaf2241684dedbf22fcb9cea58518";
-const REDIRECT_URI = "http://localhost:5173";
-//const REDIRECT_URI = "https://saeed-khodaparast.github.io/musify/";
+//const REDIRECT_URI = "http://localhost:5173";
+const REDIRECT_URI = "https://saeed-khodaparast.github.io/musify/";
 
 // Generate random string for state
 function generateRandomString(length) {
