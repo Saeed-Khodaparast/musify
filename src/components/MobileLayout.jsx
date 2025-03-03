@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import closeIcon from "../assets/images/ic-close.svg";
 import menuIcon from "../assets/images/ic-menu.svg";
-import searchIcon from "../assets/images/ic-search.svg";
 import styles from "./MobileLayout.module.css";
 import { useState } from "react";
 import List from "./List";
@@ -11,8 +10,8 @@ let timeoutId;
 
 // ***
 const CLIENT_ID = "e64aaf2241684dedbf22fcb9cea58518";
-//const REDIRECT_URI = "http://localhost:5173";
-const REDIRECT_URI = "https://saeed-khodaparast.github.io/musify/";
+const REDIRECT_URI = "http://localhost:5173";
+//const REDIRECT_URI = "https://saeed-khodaparast.github.io/musify/";
 
 // Generate random string for state
 function generateRandomString(length) {
@@ -40,7 +39,6 @@ const MobileLayout = () => {
   const [text, setText] = useState("");
   const [artists, setArtists] = useState([]);
   const [artist, setArtist] = useState(null);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [accessToken, setAccessToken] = useState();
   localStorage.getItem("spotify_access_token");
   const [isLoading, setIsLoading] = useState(true);
@@ -268,11 +266,7 @@ const MobileLayout = () => {
       </main>
       <section className={styles.toolbar}>
         <img className={styles.menuIcon} src={menuIcon} alt="" />
-        <div
-          className={`${styles.inputContainer} ${
-            isSearchOpen ? styles.open : ""
-          }`}
-        >
+        <div className={`${styles.inputContainer}`}>
           <input
             className={styles.input}
             type="text"
@@ -282,12 +276,6 @@ const MobileLayout = () => {
           />
           <img className={styles.endIcon} src={closeIcon} alt="" />
         </div>
-        <img
-          className={`${styles.searchIcon} ${isSearchOpen ? styles.close : ""}`}
-          src={searchIcon}
-          alt=""
-          onClick={() => setIsSearchOpen(!isSearchOpen)}
-        />
       </section>
 
       <aside></aside>

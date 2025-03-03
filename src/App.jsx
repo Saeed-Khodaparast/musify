@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import DesktopLayout from "./DesktopLayout";
-import MobileLayout from "./MobileLayout";
+import DesktopLayout from "./components/DesktopLayout";
+import MobileLayout from "./components/MobileLayout";
 
 const App = () => {
   const [isMobile, setIsMobile] = useState(
