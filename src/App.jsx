@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import DesktopLayout from "./components/DesktopLayout";
-import MobileLayout from "./components/MobileLayout";
+import Home from "./pages/Home";
+import { Routes, Route } from "react-router-dom";
+import Artist from "./pages/Artist";
 
 const App = () => {
   const [isMobile, setIsMobile] = useState(
@@ -18,7 +20,14 @@ const App = () => {
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
 
-  return isMobile ? <MobileLayout /> : <DesktopLayout />;
+  return isMobile ? (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/artist/:artistID" element={<Artist />} />
+    </Routes>
+  ) : (
+    <DesktopLayout />
+  );
 };
 
 export default App;

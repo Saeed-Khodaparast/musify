@@ -1,21 +1,31 @@
 import { useState } from "react";
 import styles from "./ListItem.module.css";
-import emptyHeartIcon from "../assets/images/ic-heart-empty.svg";
-import filledHeartIcon from "../assets/images/ic-heart-fill.svg";
+import { useNavigate } from "react-router-dom";
 
-const ListItem = ({ artist, onClick, key }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+const ListItem = ({ artist }) => {
+  const [isFollowing, setIsFollowing] = useState(false);
+  const navigate = useNavigate();
+
+  const handleFollowClick = (e) => {
+    e.stopPropagation();
+    setIsFollowing(!isFollowing);
+  };
+
+  const handleItemClick = () => {
+    navigate(`/artist/${artist.id}`);
+  };
+
   return (
-    <li className={styles.listItem} onClick={() => onClick(artist)}>
+    <li className={styles.listItem} onClick={handleItemClick}>
       <img className={styles.image} src={artist.images[0]?.url} alt="" />
       <div className={styles.textContainer}>
         <h2 className={styles.name}>{artist.name}</h2>
-        <img
-          className={styles.icon}
-          src={isFavorite ? filledHeartIcon : emptyHeartIcon}
-          alt=""
-          onClick={() => setIsFavorite(!isFavorite)}
-        />
+        <span
+          className={`${isFollowing ? styles.following : styles.follow}`}
+          onClick={handleFollowClick}
+        >
+          {isFollowing ? "Following" : "Follow"}
+        </span>
         <div>
           <p className={styles.genres}>
             {artist.genres.map((item) => {

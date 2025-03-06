@@ -1,5 +1,7 @@
 :root {
   --color-header: #272727;
+  --color-follow: #929292;
+  --color-following: #4ad361;
 }
 
 * {
