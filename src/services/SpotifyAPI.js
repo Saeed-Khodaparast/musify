@@ -1,8 +1,8 @@
 export class SpotifyAPI {
   constructor() {
     this.CLIENT_ID = "e64aaf2241684dedbf22fcb9cea58518";
-    this.REDIRECT_URI = "http://localhost:5173";
-    // this.REDIRECT_URI = "https://saeed-khodaparast.github.io/musify/";
+    //this.REDIRECT_URI = "http://localhost:5173";
+    this.REDIRECT_URI = "https://saeed-khodaparast.github.io/musify/";
     this.accessToken = null;
     this.refreshToken = null;
   }
